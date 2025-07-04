@@ -96,11 +96,9 @@ function playGame(player1, player2) {
 
     let currentPlayerTurn = player1;
 
-    const switchPlayers = () => currentPlayerTurn === player1 ? player2 : player1;
+    const switchPlayers = () => currentPlayerTurn = currentPlayerTurn === player1 ? player2 : player1;
 
     function handleClick(row, col) {
-
-        console.log(board.getBoard());
 
         if (board.validMove(row, col)) {
             board.playerMove(row, col, currentPlayerTurn.symbol);
@@ -110,7 +108,6 @@ function playGame(player1, player2) {
         }
 
         gameUi.updateCell(row, col, currentPlayerTurn.symbol);
-        gameUi.disableBoard();
 
         if (board.checkWin(currentPlayerTurn.symbol) || board.getRound() >= 9) {
             currentPlayerTurn.wins++;
@@ -119,27 +116,30 @@ function playGame(player1, player2) {
         }
 
         if (computer) {
-
-            setTimeout(() => {
-                const compMove = board.computerMove();
-                console.log(compMove);
-                board.playerMove(compMove.row, compMove.col, player2.symbol);
-                gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
-
-                if (board.checkWin(player2.symbol) || board.getRound() >= 9) {
-                    player2.wins++;
-                    console.log(player2.wins);
-                    resetGame();
-                    return;
-                }
-                gameUi.enableBoard();
-
-            }, 500);
-
+            computerTurn();
         }
         else {
             switchPlayers();
         }
+    }
+
+    function computerTurn() {
+        gameUi.disableBoard();
+
+        setTimeout(() => {
+            const compMove = board.computerMove();
+            board.playerMove(compMove.row, compMove.col, player2.symbol);
+            gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
+
+            if (board.checkWin(player2.symbol) || board.getRound() >= 9) {
+                player2.wins++;
+                console.log(player2.wins);
+                resetGame();
+                return;
+            }
+            gameUi.enableBoard();
+
+        }, 500);
     }
 
     function resetGame() {
