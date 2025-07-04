@@ -1,0 +1,125 @@
+*:not(dialog) {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --board-border-thickness: 3px;
+    --board-border-clr: black;
+    --board-bg-clr: white;
+    --player1-bg-color: aliceblue;
+    --player2-bg-color: yellow;
+    --body-bg-clr: #FAF0E6;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--body-bg-clr);
+}
+
+.grid-container {
+    height: 90vh;
+    width: 90%;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    grid-template-areas: "player1 board player2";
+    gap: 10px;
+}
+
+/* Players Section */
+
+.player1-section {
+    grid-area: player1;
+    background-color: var(--player1-bg-color);
+}
+
+#player1-name,
+#player2-name {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.player1-section,
+.player2-section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding: 10px;
+}
+
+#player1-symbol,
+#player2-symbol {
+    font-size: 5rem;
+}
+
+.player2-section {
+    grid-area: player2;
+    background-color: var(--player2-bg-color);
+}
+
+/* BOARD */
+
+.board-grid {
+    grid-area: board;
+    background-color: var(--board-bg-clr);
+
+    display: grid;
+
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+
+    font-weight: bold;
+    font-size: 8rem;
+}
+
+.cell:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.square5 {
+    border: var(--board-border-thickness) solid var(--board-border-clr);
+}
+
+.square2,
+.square8 {
+    border-right: var(--board-border-thickness) solid var(--board-border-clr);
+    border-left: var(--board-border-thickness) solid var(--board-border-clr);
+}
+
+.square4,
+.square6 {
+    border-top: var(--board-border-thickness) solid var(--board-border-clr);
+    border-bottom: var(--board-border-thickness) solid var(--board-border-clr);
+}
+
+.x-symbol {
+    color: red;
+}
+
+.o-symbol {
+    color: blue;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+/* DIALOG */
