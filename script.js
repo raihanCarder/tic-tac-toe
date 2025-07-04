@@ -109,8 +109,12 @@ function playGame(player1, player2) {
 
         gameUi.updateCell(row, col, currentPlayerTurn.symbol);
 
-        if (board.checkWin(currentPlayerTurn.symbol) || board.getRound() >= 9) {
+        if (board.checkWin(currentPlayerTurn.symbol)) {
             currentPlayerTurn.wins++;
+            resetGame();
+            return;
+        }
+        else if (board.getRound() === 9) {
             resetGame();
             return;
         }
@@ -131,9 +135,12 @@ function playGame(player1, player2) {
             board.playerMove(compMove.row, compMove.col, player2.symbol);
             gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
 
-            if (board.checkWin(player2.symbol) || board.getRound() >= 9) {
+            if (board.checkWin(player2.symbol)) {
                 player2.wins++;
-                console.log(player2.wins);
+                resetGame();
+                return;
+            }
+            else if (board.getRound() >= 9) {
                 resetGame();
                 return;
             }
@@ -148,7 +155,7 @@ function playGame(player1, player2) {
             board.resetBoard();
             gameUi.resetBoard();
             gameUi.enableBoard();
-            gameUi.updateBoard();
+            gameUi.updateGame();
         }, 500);
     }
 
@@ -163,7 +170,7 @@ function createGameUI(person1, person2, clickLogic) {
     const playerOneWinStat = document.getElementById("p1-wins-stat");
     const player2WinStat = document.getElementById("p2-wins-stat");
     const allCells = document.querySelectorAll(".cell");
-    console.log(player2WinStat);
+
     const cellMatrix = [...Array(3)].map(() => Array(3).fill(null));
 
     player1Title.textContent = person1.name;
@@ -219,12 +226,12 @@ function createGameUI(person1, person2, clickLogic) {
         console.log("Enabled");
     }
 
-    function updateBoard() {
+    function updateGame() {
         playerOneWinStat.textContent = person1.wins;
         player2WinStat.textContent = person2.wins;
     }
 
-    return { updateCell, resetBoard, disableBoard, enableBoard, updateBoard }
+    return { updateCell, resetBoard, disableBoard, enableBoard, updateGame }
 }
 
 const startDialogUI = (function () {
