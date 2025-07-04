@@ -27,7 +27,7 @@ body {
 
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 0.5fr 1fr 0.5fr;
+    grid-template-columns: 300px 1fr 0.5fr;
     grid-template-areas: "player1 board player2";
     gap: 10px;
 }
@@ -37,6 +37,14 @@ body {
 .player1-section {
     grid-area: player1;
     background-color: var(--player1-bg-color);
+    max-width: 300px;
+}
+
+h1 {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #player1-name,
@@ -52,13 +60,22 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
-
     padding: 10px;
 }
 
 #player1-symbol,
 #player2-symbol {
     font-size: 5rem;
+}
+
+#p2-wins,
+#p1-wins {
+    font-size: 1.5rem;
+}
+
+#p2-wins-stat,
+#p1-wins-stat {
+    font-weight: bold;
 }
 
 .player2-section {

@@ -89,11 +89,7 @@ function newGameBoard() {
     return { checkWin, getRound, playerMove, validMove, resetBoard, computerMove, getBoard }
 }
 
-function playGame(user1, user2) {
-    const player1 = createPlayer(user1.name, user1.symbol);
-    const player2 = createPlayer(user2.name, user2.symbol);
-    console.log(player1);
-    console.log(player2);
+function playGame(player1, player2) {
     const board = newGameBoard();
 
     const computer = player2.name === "Computer" ? true : false;
@@ -117,6 +113,7 @@ function playGame(user1, user2) {
         gameUi.disableBoard();
 
         if (board.checkWin(currentPlayerTurn.symbol) || board.getRound() >= 9) {
+            currentPlayerTurn.wins++;
             resetGame();
             return;
         }
@@ -130,6 +127,8 @@ function playGame(user1, user2) {
                 gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
 
                 if (board.checkWin(player2.symbol) || board.getRound() >= 9) {
+                    player2.wins++;
+                    console.log(player2.wins);
                     resetGame();
                     return;
                 }
@@ -149,6 +148,7 @@ function playGame(user1, user2) {
             board.resetBoard();
             gameUi.resetBoard();
             gameUi.enableBoard();
+            gameUi.updateBoard();
         }, 500);
     }
 
@@ -160,8 +160,10 @@ function createGameUI(person1, person2, clickLogic) {
     const player2Title = document.getElementById("player2-name")
     const player1Symbol = document.getElementById("player1-symbol");
     const player2Symbol = document.getElementById("player2-symbol");
+    const playerOneWinStat = document.getElementById("p1-wins-stat");
+    const player2WinStat = document.getElementById("p2-wins-stat");
     const allCells = document.querySelectorAll(".cell");
-
+    console.log(player2WinStat);
     const cellMatrix = [...Array(3)].map(() => Array(3).fill(null));
 
     player1Title.textContent = person1.name;
@@ -169,6 +171,9 @@ function createGameUI(person1, person2, clickLogic) {
 
     player1Symbol.textContent = person1.symbol;
     player2Symbol.textContent = person2.symbol;
+
+    playerOneWinStat.textContent = person1.wins;
+    player2WinStat.textContent = person2.wins;
 
     allCells.forEach((cell) => {
 
@@ -214,7 +219,12 @@ function createGameUI(person1, person2, clickLogic) {
         console.log("Enabled");
     }
 
-    return { updateCell, resetBoard, disableBoard, enableBoard }
+    function updateBoard() {
+        playerOneWinStat.textContent = person1.wins;
+        player2WinStat.textContent = person2.wins;
+    }
+
+    return { updateCell, resetBoard, disableBoard, enableBoard, updateBoard }
 }
 
 const startDialogUI = (function () {
@@ -234,12 +244,10 @@ const startDialogUI = (function () {
         show();
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-
-            const user1 = { name: inputName.value, symbol: "X" }
-            const user2 = { name: "Computer", symbol: "O" }
+            const player1 = createPlayer(inputName.value, "X");
+            const player2 = createPlayer("Computer", "O");
             close();
-            playGame(user1, user2);
-
+            playGame(player1, player2);
         })
     }
 
