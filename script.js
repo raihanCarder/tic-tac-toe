@@ -98,6 +98,12 @@ function playGame(player1, player2) {
 
     const switchPlayers = () => currentPlayerTurn = currentPlayerTurn === player1 ? player2 : player1;
 
+    // Makes player 1 start second if playing with friend
+
+    if (!computer && player1.symbol === "O") {
+        currentPlayerTurn = player2;
+    }
+
     function handleClick(row, col) {
 
         if (board.validMove(row, col)) {
@@ -110,8 +116,8 @@ function playGame(player1, player2) {
         gameUi.updateCell(row, col, currentPlayerTurn.symbol);
 
         if (board.checkWin(currentPlayerTurn.symbol)) {
-            currentPlayerTurn.wins++;
-            resetGame();
+            gameUi.disableBoard();
+            resetGame(currentPlayerTurn);
             return;
         }
         else if (board.getRound() === 9) {
@@ -136,8 +142,7 @@ function playGame(player1, player2) {
             gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
 
             if (board.checkWin(player2.symbol)) {
-                player2.wins++;
-                resetGame();
+                resetGame(player2);
                 return;
             }
             else if (board.getRound() >= 9) {
@@ -149,15 +154,26 @@ function playGame(player1, player2) {
         }, 500);
     }
 
-    function resetGame() {
+    function resetGame(winner) {
         setTimeout(() => {
+            if (winner === player1) {
+                player1.wins++;
+            }
+            else {
+                player2.wins++;
+            }
+
             console.log("Game Complete");
             board.resetBoard();
             gameUi.resetBoard();
             gameUi.enableBoard();
             gameUi.updateGame();
+            if (currentPlayerTurn.symbol !== "X") {
+                switchPlayers();
+            }
         }, 500);
     }
+
 
     const gameUi = createGameUI(player1, player2, handleClick);
 }
@@ -235,7 +251,7 @@ function createGameUI(person1, person2, clickLogic) {
 }
 
 const startDialogUI = (function () {
-    let modal, inputName, form;
+    let modal, inputName, form, opponent, symbolBtn;
 
     const show = () => modal.showModal();
     const close = () => modal.close();
@@ -244,6 +260,20 @@ const startDialogUI = (function () {
         modal = document.getElementById("starting-screen");
         form = document.getElementById("form-dialog");
         inputName = document.getElementById("name");
+        opponent = document.getElementById("opponent-type");
+        symbolBtn = document.getElementById("selector");
+
+        symbolBtn.addEventListener("click", () => {
+            if (symbolBtn.textContent === "X") {
+                symbolBtn.textContent = "O";
+                symbolBtn.style.color = "#1890ff"
+            }
+            else {
+                symbolBtn.textContent = "X";
+                symbolBtn.style.color = "#ff4d4f"
+            }
+        });
+
         startGame();
     }
 
@@ -251,8 +281,10 @@ const startDialogUI = (function () {
         show();
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            const player1 = createPlayer(inputName.value, "X");
-            const player2 = createPlayer("Computer", "O");
+
+
+            const player1 = createPlayer(inputName.value, symbolBtn.textContent);
+            const player2 = createPlayer(opponent.value, symbolBtn.textContent === "X" ? "O" : "X");
             close();
             playGame(player1, player2);
         })

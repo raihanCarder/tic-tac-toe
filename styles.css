@@ -9,8 +9,14 @@
     --board-border-clr: black;
     --board-bg-clr: white;
     --player1-bg-color: aliceblue;
-    --player2-bg-color: yellow;
+    --player2-bg-color: aliceblue;
     --body-bg-clr: #FAF0E6;
+    --x-clr: #ff4d4f;
+    --play-btn-txt: white;
+    --play-btn-hover: #333333;
+    --play-btn-bg: #1f1f1f;
+    --selector-btn-hvr: #e8e3d9;
+    --selector-btn-bg: #f5f3eb;
 }
 
 body {
@@ -30,6 +36,16 @@ body {
     grid-template-columns: 300px 1fr 0.5fr;
     grid-template-areas: "player1 board player2";
     gap: 10px;
+
+}
+
+.grid-container,
+.player1-section,
+.player2-section,
+#game-title,
+#selector {
+    font-family: 'Bungee', sans-serif;
+
 }
 
 /* Players Section */
@@ -38,6 +54,7 @@ body {
     grid-area: player1;
     background-color: var(--player1-bg-color);
     max-width: 300px;
+
 }
 
 h1 {
@@ -140,3 +157,110 @@ h1 {
 }
 
 /* DIALOG */
+
+#game-title {
+    font-family: 'Bungee', sans-serif;
+    font-size: 5rem;
+}
+
+#starting-screen {
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+}
+
+#form-dialog {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "information selection";
+    gap: 10px;
+}
+
+.player-info {
+    grid-area: information;
+}
+
+.selection {
+    grid-area: selection;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+#selector {
+    width: inherit;
+    height: inherit;
+    font-size: 5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    color: #ff4d4f;
+    border: none;
+    background-color: var(--selector-btn-bg);
+}
+
+#selector:hover {
+    cursor: pointer;
+    background-color: var(--selector-btn-hvr);
+    transform: scale(1.01);
+}
+
+#label-name,
+#label-opponent-type {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    font-size: 1.2rem;
+}
+
+
+#name {
+    flex: 1;
+    padding: 2px;
+    font-size: 1.2rem;
+
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+#opponent-type {
+    flex: 1;
+    padding: 3px;
+    font-size: 1.2rem;
+}
+
+#play-btn {
+    width: 100%;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--play-btn-bg);
+    color: var(--play-btn-txt);
+}
+
+#play-btn:hover {
+    background-color: var(--play-btn-hover);
+    transform: translateY(-2px);
+    cursor: pointer;
+}

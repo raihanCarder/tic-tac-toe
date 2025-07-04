@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -38,25 +39,29 @@
         <div class="player2-section">
             <h1 id="player2-name">Player 2</h1>
             <p id="player2-symbol">O</p>
-            <p id="p2-wins">Wins: <span id="p2-wins-stat"></span></p>
+            <p id="p2-wins">Wins:<span id="p2-wins-stat"></span></p>
         </div>
     </div>
 
     <dialog id="starting-screen">
-        <h1>Tic Tac Toe</h1>
+        <h1 id="game-title">Tic Tac Toe</h1>
         <form action="" method="post" id="form-dialog">
-            <label for="name">
-                <p>Enter your Name:</p> <input type="text" id="name" required>
-            </label>
-            <div class="selection">
-                <div class="x">
-                    X
-                </div>
-                <div class="o">
-                    O
-                </div>
+            <div class="player-info">
+                <label for="name" id="label-name">
+                    <p id="name-p">Enter your Name: </p> <input type="text" id="name" required>
+                </label>
+                <label for="opponent-type" id="label-opponent-type">
+                    <p>Opponent: </p>
+                    <select name="opponent-type" id="opponent-type" required>
+                        <option value="" disabled selected>Select an Opponent</option>
+                        <option value="friend">Friend (Co-op)</option>
+                        <option value="Computer">Computer</option>
+                    </select>
+                </label>
+                <button type="submit" id="play-btn">PLAY</button>
             </div>
-            <button type="submit" id="play-btn">PLAY</button>
+            <div class="selection">Your Choice:<button id="selector" type="button">X</button></div>
+
         </form>
     </dialog>
     <script src="script.js"></script>
