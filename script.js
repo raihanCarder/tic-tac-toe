@@ -293,6 +293,7 @@ const startDialogUI = (function () {
             }
         });
 
+
         resetBtn.addEventListener("click", () => location.reload());
 
         startGame();
