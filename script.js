@@ -91,6 +91,7 @@ function newGameBoard() {
 
 function playGame(player1, player2) {
     const board = newGameBoard();
+    const gameUi = createGameUI(player1, player2, handleClick);
 
     const computer = player2.name === "Computer" ? true : false;
 
@@ -104,7 +105,17 @@ function playGame(player1, player2) {
         currentPlayerTurn = player2;
     }
 
+    // Makes Computer go First when X
+
+    if (computer && player2.symbol === "X") {
+        const compMove = board.computerMove();
+        board.playerMove(compMove.row, compMove.col, player2.symbol);
+        gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
+    }
+
     function handleClick(row, col) {
+
+        console.log(board.getBoard());
 
         if (board.validMove(row, col)) {
             board.playerMove(row, col, currentPlayerTurn.symbol);
@@ -121,7 +132,7 @@ function playGame(player1, player2) {
             return;
         }
         else if (board.getRound() === 9) {
-            resetGame();
+            resetGame("Draw");
             return;
         }
 
@@ -156,26 +167,33 @@ function playGame(player1, player2) {
 
     function resetGame(winner) {
         setTimeout(() => {
+
             if (winner === player1) {
                 player1.wins++;
             }
-            else {
+            if (winner === player2) {
                 player2.wins++;
             }
 
-            console.log("Game Complete");
             board.resetBoard();
             gameUi.resetBoard();
             gameUi.enableBoard();
             gameUi.updateGame();
-            if (currentPlayerTurn.symbol !== "X") {
+
+            // Friend mode X always goes first
+            if (currentPlayerTurn.symbol !== "X" && !computer) {
                 switchPlayers();
             }
+
+            // if you're playing computer and computer is X
+            if (computer && player2.symbol === "X") {
+                const compMove = board.computerMove();
+                board.playerMove(compMove.row, compMove.col, player2.symbol);
+                gameUi.updateCell(compMove.row, compMove.col, player2.symbol);
+            }
+
         }, 500);
     }
-
-
-    const gameUi = createGameUI(player1, player2, handleClick);
 }
 
 function createGameUI(person1, person2, clickLogic) {
@@ -251,7 +269,7 @@ function createGameUI(person1, person2, clickLogic) {
 }
 
 const startDialogUI = (function () {
-    let modal, inputName, form, opponent, symbolBtn;
+    let modal, inputName, form, opponent, symbolBtn, resetBtn;
 
     const show = () => modal.showModal();
     const close = () => modal.close();
@@ -262,6 +280,7 @@ const startDialogUI = (function () {
         inputName = document.getElementById("name");
         opponent = document.getElementById("opponent-type");
         symbolBtn = document.getElementById("selector");
+        resetBtn = document.getElementById("reset-btn");
 
         symbolBtn.addEventListener("click", () => {
             if (symbolBtn.textContent === "X") {
@@ -273,6 +292,8 @@ const startDialogUI = (function () {
                 symbolBtn.style.color = "#ff4d4f"
             }
         });
+
+        resetBtn.addEventListener("click", () => location.reload());
 
         startGame();
     }

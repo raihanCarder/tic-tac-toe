@@ -70,8 +70,8 @@ h1 {
     text-align: center;
 }
 
-.player1-section,
-.player2-section {
+.player2-section,
+.player1-stats {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -79,6 +79,27 @@ h1 {
     align-items: center;
     padding: 10px;
 }
+
+.player1-section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+#reset-btn {
+    font-size: 1.2rem;
+    padding: 5px;
+    width: 100%;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
 
 #player1-symbol,
 #player2-symbol {
@@ -259,7 +280,8 @@ h1 {
     color: var(--play-btn-txt);
 }
 
-#play-btn:hover {
+#play-btn:hover,
+#reset-btn:hover {
     background-color: var(--play-btn-hover);
     transform: translateY(-2px);
     cursor: pointer;
