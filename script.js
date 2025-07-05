@@ -86,7 +86,10 @@ function newGameBoard() {
 
     const getBoard = () => board;
 
-    return { checkWin, getRound, playerMove, validMove, resetBoard, computerMove, getBoard }
+    return {
+        checkWin, getRound, playerMove, validMove,
+        resetBoard, computerMove, getBoard
+    }
 }
 
 function playGame(player1, player2) {
@@ -105,7 +108,7 @@ function playGame(player1, player2) {
         currentPlayerTurn = player2;
     }
 
-    // Makes Computer go First when X
+    // Makes Computer go First when Computer is X
 
     if (computer && player2.symbol === "X") {
         const compMove = board.computerMove();
@@ -180,12 +183,12 @@ function playGame(player1, player2) {
             gameUi.enableBoard();
             gameUi.updateGame();
 
-            // Friend mode X always goes first
+            // Friend mode: Makes X always goes first
             if (currentPlayerTurn.symbol !== "X" && !computer) {
                 switchPlayers();
             }
 
-            // if you're playing computer and computer is X
+            // Computer Mode: Makes Computer go first
             if (computer && player2.symbol === "X") {
                 const compMove = board.computerMove();
                 board.playerMove(compMove.row, compMove.col, player2.symbol);
@@ -295,12 +298,22 @@ const startDialogUI = (function () {
 
 
         resetBtn.addEventListener("click", () => location.reload());
-
         startGame();
     }
 
+    function preventsEsc(dialogEl) {
+        dialogEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+            }
+        });
+    }
+
     function startGame() {
+        preventsEsc(modal);
+
         show();
+
         form.addEventListener("submit", (e) => {
             e.preventDefault();
 
